@@ -1,11 +1,13 @@
 
 num = 0
+statement = ""
 if num > 0:
-    print("num is greater than 0")
+    statement = "num is greater than 0"
 elif num < 0:
-    print("num is less than 0")
+    statement = "num is less than 0"
 elif num == 0:
-    print("num is equal to  0")
+    statement = "num is equal to  0"
+print(statement)
 
 isPrime = True
 prime_num_iter = 2

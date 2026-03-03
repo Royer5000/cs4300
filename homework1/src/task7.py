@@ -1,6 +1,9 @@
 import numpy as np
 
-array = np.array([1, 2, 3, 4, 5], ndmin = 5)
+student_array = np.array(["Student1", "Student2", "Student3"])
+gpa_array = np.array(["3.8", "3.6", "3.0"])
 
-print(array)
-print(array.ndim)
+compiled_array = np.stack((student_array, gpa_array), axis = 1)
+
+print(compiled_array)
+print(compiled_array.ndim)

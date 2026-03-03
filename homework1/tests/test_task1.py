@@ -1,3 +1,4 @@
+import pytest
 from task1 import print_hello
 
 def test_print_hello(capsys):
