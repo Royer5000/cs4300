@@ -36,20 +36,15 @@ def seat_booking(request, movie_id):
         seat_number = request.POST.get("seat_number")
         username = request.POST.get("user")
 
-        seat = get_object_or_404(Seat, seat_number = seat_number)
-
         if seat.booking_status == False:
              # Create booking through Render API
             booking_url = "https://app-jroyer-21.devedu.io/api/bookings/"
             booking_payload = {
-                "movie": movie["title"],
-                "seat": seat_number,
-                "user": username
+                "movie" : movie["title"],
+                "seat" : seat_number,
+                "user" : username
             }
             requests.post(booking_url, json=booking_payload)
-            
-            seat.booking_status = True
-            seat.save()
 
             return redirect("booking_history")
 
