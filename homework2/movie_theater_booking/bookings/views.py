@@ -19,13 +19,18 @@ def movie_list(request):
     url = "https://mysite-b2np.onrender.com/api/movies/"
     response = requests.get(url)
     movies = response.json()
-    return render(request, "bookings/movie_list.html", {"movie" : movies})
+    return render(request, "bookings/movie_list.html", {"movies" : movies})
 
 # seat_booking takes request and movie_id, renders seat_booking.html with seat information for specific movie_id
 # Handles seat booking for user
 def seat_booking(request, movie_id):
-    movie_info = get_object_or_404(Movie, id = movie_id)
-    seat_info = Seat.objects.all()
+    movie_url = f"https://app-jroyer-21.devedu.io/api/movies/{movie_id}/"
+    movie_response = requests.get(movie_url)
+    movie = movie_response.json()
+
+    seats_url = "https://app-jroyer-21.devedu.io/api/seats/"
+    seats_response = requests.get(seats_url)
+    seats = seats_response.json()
 
     if request.method == "POST":
         seat_number = request.POST.get("seat_number")
@@ -34,19 +39,33 @@ def seat_booking(request, movie_id):
         seat = get_object_or_404(Seat, seat_number = seat_number)
 
         if seat.booking_status == False:
-            Booking.objects.create(movie = movie_info.title, seat = seat.seat_number, user = username, booking_date = date.today())
+             # Create booking through Render API
+            booking_url = "https://app-jroyer-21.devedu.io/api/bookings/"
+            booking_payload = {
+                "movie": movie["title"],
+                "seat": seat_number,
+                "user": username
+            }
+            requests.post(booking_url, json=booking_payload)
             
             seat.booking_status = True
             seat.save()
 
             return redirect("booking_history")
 
-    return render(request, "bookings/seat_booking.html", {"movie" : movie_info, "seat" : seat_info})
+    return render(request, "bookings/seat_booking.html", {
+        "movie" : movie,
+        "seats" : seats
+    })
 
 # booking_history takes request and renders booking_history.html with booking history information
 def booking_history(request):
-    booking_info = Booking.objects.all()
-    return render(request, "bookings/booking_history.html", {"booking" : booking_info})
+    url = "https://app-jroyer-21.devedu.io/api/bookings/"
+    response = requests.get(url)
+    bookings = response.json()
+
+    return render(request, "bookings/booking_history.html", {"bookings": bookings})
+
 
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
