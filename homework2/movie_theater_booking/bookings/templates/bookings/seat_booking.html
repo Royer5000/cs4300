@@ -1,0 +1,25 @@
+{% extends "bookings/base.html" %}
+
+{% block title %}Seat Booking{% endblock %}
+
+{% block content %}
+<h2>Seats for {{ movie.title }}</h2>
+
+    <div class = "row">
+        {% for seat in seats %}
+            <div class = "col">
+                {% if seat.booking_status %}
+                    <!-- Seat is booked -->
+                     <button type = "button" class = "btn btn-secondary w-100" disabled>
+                        {{ seat.seat_number }}
+                     </button>
+                {% else %}
+                    <button type = "submit" class = "btn btn-secondary w-100" name = "seat_number" value = "{{ seat.seat_number }}">
+                        {{ seat.seat_number }}
+                    </button>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

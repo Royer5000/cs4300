@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-b)s=k0^khjgj$@%1*^jvy+-5@*ftjf*^3z801cps^a-722-9xu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'editor-jroyer-21.devedu.io',
+    'app-jroyer-21.devedu.io',
+]
 
 
 # Application definition
@@ -38,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "bookings",
-    "rest_framework"
+    "rest_framework",
+    "behave_django"
 ]
 
 MIDDLEWARE = [

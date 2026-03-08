@@ -1,0 +1,35 @@
+{% extends "bookings/base.html" %}
+
+{% block title %}Booking History{% endblock %}
+
+{% block content %}
+<h2>Current Bookings</h2>
+
+    {% if bookings %}
+        <div class = "table">
+            <table class = "table table-striped">
+                <thead>
+                    <tr>
+                        <th>Movie</th>
+                        <th>Seat Number</th>
+                        <th>Date Booked</th>
+                        <th>User</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                        <tr>
+                            <td>{{ booking.movie }}</td>
+                            <td>{{ booking.seat }}</td>
+                            <td>{{ booking.booking_date }}</td>
+                            <td>{{ booking.user }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class = "alert alert-info">No bookings yet.</div>
+    {% endif %}
+    
+{% endblock %}
