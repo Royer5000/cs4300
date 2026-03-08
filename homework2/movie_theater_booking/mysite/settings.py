@@ -29,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'editor-jroyer-21.devedu.io',
     'app-jroyer-21.devedu.io',
+    'mysite-b2np.onrender.com',
 ]
 
 
