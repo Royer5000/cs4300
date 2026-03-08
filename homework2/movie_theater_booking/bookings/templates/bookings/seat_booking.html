@@ -6,6 +6,8 @@
 <h2>Seats for {{ movie.title }}</h2>
 
     <form method = "POST">
+        {% csrf_token %}
+        
         <div class="mb-5">
             <label class = "form-label">Enter Your Name</label>
             <input type = "text" name = "user" class = "form-control" required>
