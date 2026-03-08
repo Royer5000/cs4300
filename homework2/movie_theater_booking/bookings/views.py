@@ -36,17 +36,32 @@ def seat_booking(request, movie_id):
         seat_number = request.POST.get("seat_number")
         username = request.POST.get("user")
 
-        if seat.booking_status == False:
-            # Create booking through Render API
-            booking_url = "https://mysite-b2np.onrender.com/api/bookings/"
-            booking_payload = {
-                "movie" : movie["title"],
-                "seat" : seat_number,
-                "user" : username
-            }
-            requests.post(booking_url, json=booking_payload)
+        selected_seat = next((s for s in seats if s["seat_number"] == seat_number), None)
 
-            return redirect("booking_history")
+        if not selected_seat:
+            return render(request, "bookings/seat_booking.html", {
+                "movie" : movie,
+                "seats" : seats,
+                "error" : "Seat does nnot exist."
+            })
+
+        if selected_seat["booking_status"] == True:
+            return render(request, "bookings/seat_booking.html", {
+                "movie" : movie,
+                "seats" : seats,
+                "error" : "Seat is already booked."
+            })
+        
+        # Create booking through Render API
+        booking_url = "https://mysite-b2np.onrender.com/api/bookings/"
+        booking_payload = {
+            "movie" : movie["title"],
+            "seat" : seat_number,
+            "user" : username
+        }
+        requests.post(booking_url, json=booking_payload)
+
+        return redirect("booking_history")
 
     return render(request, "bookings/seat_booking.html", {
         "movie" : movie,
