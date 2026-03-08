@@ -16,9 +16,10 @@ from .serializers import MovieSerializer, SeatSerializer, BookingSerializer
 
 # movie_list takes request and renders movie_list.html with movie information
 def movie_list(request):
-    #response = requests.get("https://app-jroyer-21.devedu.io/api/movies/")
-    movie_info = Movie.objects.all() #response.json()
-    return render(request, "bookings/movie_list.html", {"movie" : movie_info})
+    url = "https://mysite-b2np.onrender.com/api/movies/"
+    response = requests.get(url)
+    movies = response.json()
+    return render(request, "bookings/movie_list.html", {"movie" : movies})
 
 # seat_booking takes request and movie_id, renders seat_booking.html with seat information for specific movie_id
 # Handles seat booking for user
