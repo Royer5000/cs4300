@@ -3,8 +3,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny
 
 from datetime import date
+import requests
 
 from .models import Movie, Seat, Booking
 from .serializers import MovieSerializer, SeatSerializer, BookingSerializer
@@ -14,8 +16,9 @@ from .serializers import MovieSerializer, SeatSerializer, BookingSerializer
 
 # movie_list takes request and renders movie_list.html with movie information
 def movie_list(request):
-    movie_info = Movie.objects.all()
-    return render(request, "bookings/movie_list.html", {"Movie" : movie_info})
+    response = requests.get("https://app-jroyer-21.devedu.io/api/movies/")
+    movie_info = response.json()
+    return render(request, "bookings/movie_list.html", {"movie" : movie_info})
 
 # seat_booking takes request and movie_id, renders seat_booking.html with seat information for specific movie_id
 # Handles seat booking for user
@@ -37,24 +40,27 @@ def seat_booking(request, movie_id):
 
             return redirect("booking_history")
 
-    return render(request, "bookings/seat_booking.html", {"Movie" : movie_info, "Seat" : seat_info})
+    return render(request, "bookings/seat_booking.html", {"movie" : movie_info, "seat" : seat_info})
 
 # booking_history takes request and renders booking_history.html with booking history information
 def booking_history(request):
     booking_info = Booking.objects.all()
-    return render(request, "bookings/booking_history.html", {"Booking" : booking_info})
+    return render(request, "bookings/booking_history.html", {"booking" : booking_info})
 
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
+    permission_classes = [AllowAny]
 
 class SeatViewSet(viewsets.ModelViewSet):
     queryset = Seat.objects.all()
     serializer_class = SeatSerializer
+    permission_classes = [AllowAny]
 
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+    permission_classes = [AllowAny]
 
     def create(self, request, *args, **kargs):
         movie_title = request.data.get("movie")
