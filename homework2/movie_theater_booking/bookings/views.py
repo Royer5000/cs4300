@@ -24,11 +24,11 @@ def movie_list(request):
 # seat_booking takes request and movie_id, renders seat_booking.html with seat information for specific movie_id
 # Handles seat booking for user
 def seat_booking(request, movie_id):
-    movie_url = f"https://app-jroyer-21.devedu.io/api/movies/{movie_id}/"
+    movie_url = f"https://app-jroyer-21.devedu.io/api/movies/{movie_id}/?format=json"
     movie_response = requests.get(movie_url)
     movie = movie_response.json()
 
-    seats_url = "https://app-jroyer-21.devedu.io/api/seats/"
+    seats_url = "https://app-jroyer-21.devedu.io/api/seats/?format=json"
     seats_response = requests.get(seats_url)
     seats = seats_response.json()
 
@@ -55,7 +55,7 @@ def seat_booking(request, movie_id):
 
 # booking_history takes request and renders booking_history.html with booking history information
 def booking_history(request):
-    url = "https://app-jroyer-21.devedu.io/api/bookings/"
+    url = "https://app-jroyer-21.devedu.io/api/bookings/?format=json"
     response = requests.get(url)
     bookings = response.json()
 
