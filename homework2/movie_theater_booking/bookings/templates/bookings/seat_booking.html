@@ -5,21 +5,30 @@
 {% block content %}
 <h2>Seats for {{ movie.title }}</h2>
 
-    <div class = "row">
-        {% for seat in seats %}
-            <div class = "col">
-                {% if seat.booking_status %}
-                    <!-- Seat is booked -->
-                     <button type = "button" class = "btn btn-secondary w-100" disabled>
-                        {{ seat.seat_number }}
-                     </button>
-                {% else %}
-                    <button type = "submit" class = "btn btn-secondary w-100" name = "seat_number" value = "{{ seat.seat_number }}">
-                        {{ seat.seat_number }}
-                    </button>
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
+    <form method = "POST">
+        <div class="mb-5">
+            <label class = "form-label">Enter Your Name</label>
+            <input type = "text" name = "user" class = "form-control" required>
+        </div>
+
+    
+        <div class = "row">
+            {% for seat in seats %}
+                <div class = "col-md-2 col-5 mb-3">
+                    {% if seat.booking_status %}
+                        <!-- Seat is booked -->
+                        <button type = "button" class = "btn btn-secondary w-200 h-200" disabled color = red>
+                            {{ seat.seat_number }}
+                        </button>
+                    {% else %}
+                        <button type = "submit" class = "btn btn-secondary w-200 h-200" name = "seat_number" value = "{{ seat.seat_number }}" color = green>
+                            {{ seat.seat_number }}
+                        </button>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </form>
+   
 
 {% endblock %}
